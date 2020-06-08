@@ -70,9 +70,10 @@ public class ProductosRest {
 			for(Item x:l) {
 				valorTotalItem = valorTotalItem + x.getCantidad()*x.getProductoId().getValor();
 				valorItem = x.getCantidad()*x.getProductoId().getValor();
-				valorTotalFactura = valorTotalFactura + valorTotalItem;
+				valorTotalFactura = valorTotalFactura + valorItem;
 				x.setValorTotal(valorItem);
 			}
+			System.out.println(valorTotalFactura);
 			factura.setValorTotal(valorTotalFactura);
 		}
 		return ResponseEntity.ok(factura);
