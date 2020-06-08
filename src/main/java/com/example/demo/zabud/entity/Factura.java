@@ -23,8 +23,8 @@ public class Factura {
 	@Column(name = "valorTotal")
 	private Double valorTotal;
 	@JoinColumn(name = "item_id", referencedColumnName = "id")
-	@ManyToOne(optional = false)
-	private Item itemId;
+	@ManyToOne(targetEntity=Item.class)
+	private List<Item> itemId;
 	public Long getId() {
 		return id;
 	}
@@ -43,12 +43,14 @@ public class Factura {
 	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
-	public Item getItemId() {
+	public List<Item> getItemId() {
 		return itemId;
 	}
-	public void setItemId(Item itemId) {
+	public void setItemId(List<Item> itemId) {
 		this.itemId = itemId;
 	}
+	
+	
 	
 
 	

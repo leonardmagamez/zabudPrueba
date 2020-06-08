@@ -1,5 +1,7 @@
 package com.example.demo.zabud.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import com.example.demo.zabud.dao.FacturaDao;
 import com.example.demo.zabud.dao.ItemDao;
 import com.example.demo.zabud.dao.ProductDao;
 import com.example.demo.zabud.entity.Factura;
+import com.example.demo.zabud.entity.Item;
 import com.example.demo.zabud.entity.Productos;
 
 @RestController
@@ -60,12 +63,18 @@ public class ProductosRest {
 	@PostMapping(value = "calcular")
 	public ResponseEntity<Factura> calcularValorFactura(@RequestBody Factura factura) {
 		Double valorTotalItem = 0.0;
+		Double valorItem = 0.0;
 		Double valorTotalFactura = 0.0;
-		valorTotalItem = valorTotalItem
-				+ factura.getItemId().getCantidad() * factura.getItemId().getProductoId().getValor();
-		valorTotalFactura = valorTotalFactura + valorTotalItem;
-		factura.getItemId().setValorTotal(valorTotalItem);
-		factura.setValorTotal(valorTotalFactura);
+		if(factura.getItemId()!=null) {
+			List<Item> l = factura.getItemId();
+			for(Item x:l) {
+				valorTotalItem = valorTotalItem + x.getCantidad()*x.getProductoId().getValor();
+				valorItem = x.getCantidad()*x.getProductoId().getValor();
+				valorTotalFactura = valorTotalFactura + valorTotalItem;
+				x.setValorTotal(valorItem);
+			}
+			factura.setValorTotal(valorTotalFactura);
+		}
 		return ResponseEntity.ok(factura);
 
 	}
